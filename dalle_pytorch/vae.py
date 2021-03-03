@@ -63,7 +63,7 @@ def download(url, root=os.path.expanduser("~/.cache/dalle")):
 # adapter class
 
 class OpenAIDiscreteVAE(nn.Module):
-    def __init__(self):
+    def __init__(self, models_path=os.path.expanduser("~/.cache/dalle")):
         super().__init__()
         try:
             import dall_e
@@ -71,8 +71,8 @@ class OpenAIDiscreteVAE(nn.Module):
             print(f'you need to "pip install git+https://github.com/openai/DALL-E.git" before you can use the pretrained OpenAI Discrete VAE')
             sys.exit()
 
-        self.enc = load_model(download(ENCODER_PATH))
-        self.dec = load_model(download(DECODER_PATH))
+        self.enc = load_model(download(ENCODER_PATH), models_path)
+        self.dec = load_model(download(DECODER_PATH), models_path)
         self.num_layers = 3
         self.image_size = 256
         self.num_tokens = 8192
