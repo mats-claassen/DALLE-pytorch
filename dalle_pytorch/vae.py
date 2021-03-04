@@ -26,7 +26,7 @@ EPS = 0.1
 
 def load_model(path):
     with open(path, 'rb') as f:
-        return torch.load(f, map_location = torch.device('cpu'))
+        return torch.load(f, map_location = torch.device('gpu'))
 
 def map_pixels(x):
     return (1 - 2 * EPS) * x + EPS
@@ -71,8 +71,8 @@ class OpenAIDiscreteVAE(nn.Module):
             print(f'you need to "pip install git+https://github.com/openai/DALL-E.git" before you can use the pretrained OpenAI Discrete VAE')
             sys.exit()
 
-        self.enc = load_model(download(ENCODER_PATH), models_path)
-        self.dec = load_model(download(DECODER_PATH), models_path)
+        self.enc = load_model(download(ENCODER_PATH, models_path))
+        self.dec = load_model(download(DECODER_PATH, models_path))
         self.num_layers = 3
         self.image_size = 256
         self.num_tokens = 8192
